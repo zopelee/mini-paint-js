@@ -10267,16 +10267,17 @@ function GUI_CLASS() {
     }
   };
 
-  this.action = function (key) {
+  this.action = function (key, callback) {
     DRAW[key]('init', {valid: true});
     if (DRAW.active_tool == key)
       return false;
 
     //change
     if (DRAW.active_tool != '')
-      document.getElementById(DRAW.active_tool).className = "";
+      document.getElementById(DRAW.active_tool).classList.remove("active", "trn")
     DRAW.active_tool = key;
-    document.getElementById(key).className = "active trn";
+    DRAW[key].callback = callback
+    document.getElementById(key).classList.add("active", "trn")
     this.show_action_attributes();
 
     return false;
@@ -10571,7 +10572,7 @@ function GUI_CLASS() {
       document.getElementById("main_color").style.display = 'none';
       document.getElementById("main_color_alt").style.display = '';
       document.getElementById("main_color_alt").style.backgroundColor = COLOR;
-    }
+}
     canvas_grid.globalAlpha = 0.8;
   }
 }
