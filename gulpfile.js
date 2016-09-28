@@ -12,13 +12,24 @@ var del = require('del')
 var runSequence = require('run-sequence')
 
 gulp.task('build', function () {
-  return gulp.src('./demo/index.html')
+  return gulp.src('demo/index.html')
           .pipe(rename("index.min.html"))
           .pipe(usemin({
             jsLib: [strip()],
-            jsApp: [ngAnnotate(), uglify()],
+            jsApp: [],
           }))
-          .pipe(gulp.dest('./demo/'))
+          .pipe(gulp.dest('demo/'))
+})
+gulp.task('rename', ['build'], function () {
+  return gulp.src('dist/mini-paint.min.js')
+          .pipe(rename("mini-paint.js"))
+          .pipe(gulp.dest('dist/'))
+})
+gulp.task('min', ['rename'], function () {
+  return gulp.src('dist/mini-paint.js')
+          .pipe(rename("mini-paint.min.js"))
+          .pipe(uglify())
+          .pipe(gulp.dest('dist/'))
 })
 
-gulp.task('default', ['build'])
+gulp.task('default', ['min'])
