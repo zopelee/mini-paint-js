@@ -269,26 +269,28 @@
     <div id="popup"></div>
 
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="../vendor/ddsmoothmenu.js"></script>
-    <script src="../vendor/imagefilters/imagefilters.min.js"></script>
     <script src="../bower_components/glfx-bower/glfx.js"></script>
     <script src="../bower_components/exif-js/exif.js"></script>
-    <script src="../vendor/harmony.js"></script>
-    <script src="../src/libs/vintage.js"></script>
-    <script src="../src/libs/sift.js"></script>
-    <script src="../src/js/elements.js"></script>
-    <script src="../src/libs/helpers.js"></script>
-    <script src="../src/libs/popup.js"></script>
     <script src="../bower_components/canvas-to-Blob.js/canvas-toBlob.js"></script>
     <script src="../bower_components/file-saver/FileSaver.min.js"></script>
+
+    <!-- build:jsApp ../dist/mini-paint.min.js -->
+    <script src="../vendor/ddsmoothmenu.js"></script>
+    <script src="../vendor/imagefilters/imagefilters.min.js"></script>
+    <script src="../vendor/harmony.js"></script>
     <script src="../vendor/hqx/hqx.min.js"></script>
     <script src="../vendor/jquery.translate.js"></script>
+    <script src="../src/libs/vintage.js"></script>
+    <script src="../src/libs/sift.js"></script>
+    <script src="../src/libs/helpers.js"></script>
+    <script src="../src/libs/popup.js"></script>
 
     <script src="../src/languages/es.js"></script>
     <script src="../src/languages/it.js"></script>
     <script src="../src/languages/lt.js"></script>
     <script src="../src/languages/zh.js"></script>
 
+    <script src="../src/js/elements.js"></script>
     <script src="../src/js/events.js"></script>
     <script src="../src/js/file.js"></script>
     <script src="../src/js/edit.js"></script>
@@ -300,7 +302,14 @@
     <script src="../src/js/gui.js"></script>
     <script src="../src/js/help.js"></script>
 
-    <script src="config.js"></script>
+    <script src="../src/js/config.js"></script>
     <script src="../src/js/main.js"></script>
+    <!-- endbuild -->
+
+    <script>
+              // override config
+              ddsmoothmenu.arrowimages = {down: ['downarrowclass', '', 23], right: ['rightarrowclass', '../src/img/right.gif', 6], left: ['leftarrowclass', '']}
+              document.onload = MAIN.init({firstLoad: true, drawHelpers: true})
+    </script>
   </body>
 </html>

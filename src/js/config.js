@@ -40,12 +40,14 @@ var DRAW_TOOLS_CONFIG = [
   {name: 'crop_tool', title: 'Crop', icon: ['../src/img/sprites.png', -450 + 2, -50 + 2], attributes: {}},
 ];
 
-// override
-ddsmoothmenu.arrowimages = {down: ['downarrowclass', '', 23], right: ['rightarrowclass', '../src/img/right.gif', 6], left: ['leftarrowclass', '']}
-ddsmoothmenu.init({
-  mainmenuid: "main_menu", //menu DIV id
-  orientation: 'h', //Horizontal or vertical menu: Set to "h" or "v"
-  classname: 'ddsmoothmenu', //class added to menu's outer DIV
-  //customtheme: ["#1c5a80", "#18374a"],
-  contentsource: "markup" //"markup" or ["container_id", "path_to_menu_file"]
-})
+// colors
+var COLORS_DATA = [
+  ['#ff0000', '#ff5b31', '#ffa500', '#ff007f', '#ff00ff'], //red
+  ['#00ff00', '#008000', '#7fff00', '#00ff7f', '#8ac273'], //green
+  ['#0000ff', '#007fff', '#37629c', '#000080', '#8000ff'], //blue
+  ['#ffff00', '#ffff80', '#ddd06a', '#808000', '#bcb88a'], //yellow
+  ['#ffffff', '#c0c0c0', '#808080', '#404040', '#000000'], //grey
+]
+
+// menu
+var MENU_ID = 'main_menu'

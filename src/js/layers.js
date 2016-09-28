@@ -692,6 +692,14 @@ function LAYER_CLASS() {
       canvas_preview.restore();
     }
   };
+
+  var self = this
+  self.reset_layers = function () {
+    LAYER.remove_all_layers();
+    LAYER.layers = [];
+    LAYER.layer_add();
+    LAYER.set_canvas_size();
+  }
 }
 
 function canvas_active(base) {

@@ -82,16 +82,9 @@ function GUI_CLASS() {
 
     //draw colors
     var html = '';
-    var colors_data = [
-      ['#ff0000', '#ff5b31', '#ffa500', '#ff007f', '#ff00ff'], //red
-      ['#00ff00', '#008000', '#7fff00', '#00ff7f', '#8ac273'], //green
-      ['#0000ff', '#007fff', '#37629c', '#000080', '#8000ff'], //blue
-      ['#ffff00', '#ffff80', '#ddd06a', '#808000', '#bcb88a'], //yellow
-      ['#ffffff', '#c0c0c0', '#808080', '#404040', '#000000'], //grey
-    ];
-    for (var i in colors_data) {
-      for (var j in colors_data[i]) {
-        html += '<div style="background-color:' + colors_data[i][j] + ';" class="mini-color" onclick="GUI.set_color(this);"></div>' + "\n";
+    for (var i in COLORS_DATA) {
+      for (var j in COLORS_DATA[i]) {
+        html += '<div style="background-color:' + COLORS_DATA[i][j] + ';" class="mini-color" onclick="GUI.set_color(this);"></div>' + "\n";
       }
       html += '<div style="clear:both;"></div>' + "\n";
     }
@@ -205,14 +198,14 @@ function GUI_CLASS() {
   };
   this.redraw_preview = function () {
     canvas_preview.beginPath();
-    canvas_preview.rect(0, 0, GUI.PREVIEW_SIZE.w, GUI.PREVIEW_SIZE.h);
+    canvas_preview.rect(0, 0, self.PREVIEW_SIZE.w, self.PREVIEW_SIZE.h);
     canvas_preview.fillStyle = "#ffffff";
     canvas_preview.fill();
-    this.draw_background(canvas_preview, GUI.PREVIEW_SIZE.w, GUI.PREVIEW_SIZE.h, 5);
+    this.draw_background(canvas_preview, self.PREVIEW_SIZE.w, self.PREVIEW_SIZE.h, 5);
 
     //redraw preview area
     canvas_preview.save();
-    canvas_preview.scale(GUI.PREVIEW_SIZE.w / WIDTH, GUI.PREVIEW_SIZE.h / HEIGHT);
+    canvas_preview.scale(self.PREVIEW_SIZE.w / WIDTH, self.PREVIEW_SIZE.h / HEIGHT);
     for (var i = LAYER.layers.length - 1; i >= 0; i--) {
       if (LAYER.layers[i].visible == false)
         continue;
@@ -222,34 +215,34 @@ function GUI_CLASS() {
 
     //active zone
     var canvas_wrapper = document.querySelector('#canvas_wrapper');
-    var visible_w = canvas_wrapper.clientWidth / GUI.ZOOM * 100;
-    var visible_h = canvas_wrapper.clientHeight / GUI.ZOOM * 100;
+    var visible_w = canvas_wrapper.clientWidth / self.ZOOM * 100;
+    var visible_h = canvas_wrapper.clientHeight / self.ZOOM * 100;
 
-    var mini_rect_w = GUI.PREVIEW_SIZE.w * visible_w / WIDTH;
-    var mini_rect_h = GUI.PREVIEW_SIZE.h * visible_h / HEIGHT;
+    var mini_rect_w = self.PREVIEW_SIZE.w * visible_w / WIDTH;
+    var mini_rect_h = self.PREVIEW_SIZE.h * visible_h / HEIGHT;
 
     //xx = (GUI.zoom_center[0] * WIDTH / 100 - visible_w*GUI.zoom_center[0]/100) * GUI.ZOOM / 100;
     if (EVENTS.mouse.valid == true) {
       //using exact position
-      mini_rect_x = GUI.zoom_center[0] * GUI.PREVIEW_SIZE.w / 100 - mini_rect_w * GUI.zoom_center[0] / 100;
-      mini_rect_y = GUI.zoom_center[1] * GUI.PREVIEW_SIZE.h / 100 - mini_rect_h * GUI.zoom_center[1] / 100;
+      mini_rect_x = self.zoom_center[0] * self.PREVIEW_SIZE.w / 100 - mini_rect_w * self.zoom_center[0] / 100;
+      mini_rect_y = self.zoom_center[1] * self.PREVIEW_SIZE.h / 100 - mini_rect_h * self.zoom_center[1] / 100;
     } else {
       //using center
-      mini_rect_x = GUI.zoom_center[0] * GUI.PREVIEW_SIZE.w / 100 - mini_rect_w / 2;
-      mini_rect_y = GUI.zoom_center[1] * GUI.PREVIEW_SIZE.h / 100 - mini_rect_h / 2;
+      mini_rect_x = self.zoom_center[0] * self.PREVIEW_SIZE.w / 100 - mini_rect_w / 2;
+      mini_rect_y = self.zoom_center[1] * self.PREVIEW_SIZE.h / 100 - mini_rect_h / 2;
     }
 
     //validate
     mini_rect_x = Math.max(0, mini_rect_x);
     mini_rect_y = Math.max(0, mini_rect_y);
-    mini_rect_w = Math.min(GUI.PREVIEW_SIZE.w - 1, mini_rect_w);
-    mini_rect_h = Math.min(GUI.PREVIEW_SIZE.h - 1, mini_rect_h);
-    if (mini_rect_x + mini_rect_w > GUI.PREVIEW_SIZE.w)
-      mini_rect_x = GUI.PREVIEW_SIZE.w - mini_rect_w;
-    if (mini_rect_y + mini_rect_h > GUI.PREVIEW_SIZE.h)
-      mini_rect_y = GUI.PREVIEW_SIZE.h - mini_rect_h;
+    mini_rect_w = Math.min(self.PREVIEW_SIZE.w - 1, mini_rect_w);
+    mini_rect_h = Math.min(self.PREVIEW_SIZE.h - 1, mini_rect_h);
+    if (mini_rect_x + mini_rect_w > self.PREVIEW_SIZE.w)
+      mini_rect_x = self.PREVIEW_SIZE.w - mini_rect_w;
+    if (mini_rect_y + mini_rect_h > self.PREVIEW_SIZE.h)
+      mini_rect_y = self.PREVIEW_SIZE.h - mini_rect_h;
 
-    if (mini_rect_x == 0 && mini_rect_y == 0 && mini_rect_w == GUI.PREVIEW_SIZE.w - 1 && mini_rect_h == GUI.PREVIEW_SIZE.h - 1) {
+    if (mini_rect_x == 0 && mini_rect_y == 0 && mini_rect_w == self.PREVIEW_SIZE.w - 1 && mini_rect_h == self.PREVIEW_SIZE.h - 1) {
       //everything is visible
       return false;
     }
@@ -284,7 +277,7 @@ function GUI_CLASS() {
         this.ZOOM = parseInt(recalc);
       }
       this.ZOOM = Math.max(this.ZOOM, 10);
-      GUI.redraw_preview();
+      self.redraw_preview();
     }
     document.getElementById("zoom_nr").innerHTML = this.ZOOM;
     document.getElementById("zoom_range").value = this.ZOOM;
@@ -400,7 +393,7 @@ function GUI_CLASS() {
     //custom
     if (DRAW.active_tool == 'erase') {
       var strict = this.action_data().attributes.strict;
-      var is_circle = GUI.action_data().attributes.circle;
+      var is_circle = self.action_data().attributes.circle;
 
       if (is_circle == false) {
         //hide strict controlls
@@ -452,23 +445,23 @@ function GUI_CLASS() {
           html += '<div onclick="GUI.update_attribute(this, 1)" style="background-color:#5680c1;" class="attribute-area trn" id="' + k + '">' + title + '</div>';
         else
           html += '<div onclick="GUI.update_attribute(this, 0)" class="attribute-area trn" id="' + k + '">' + title + '</div>';
-      } else if (typeof GUI.action_data().attributes[k] == 'object') {
+      } else if (typeof self.action_data().attributes[k] == 'object') {
         //drop down select
         html += '<select style="font-size:11px;margin-bottom:10px;" onchange="GUI.update_attribute(this);" id="' + k + '">';
-        for (var j in GUI.action_data().attributes[k]) {
+        for (var j in self.action_data().attributes[k]) {
           var sel = '';
           var key = k.replace("_values", "");
-          if (GUI.action_data().attributes[key] == GUI.action_data().attributes[k][j])
+          if (self.action_data().attributes[key] == self.action_data().attributes[k][j])
             sel = 'selected="selected"';
-          html += '<option class="trn" ' + sel + ' name="' + GUI.action_data().attributes[k][j] + '" data-value="' + GUI.action_data().attributes[k][j] + '">' + GUI.action_data().attributes[k][j] + '</option>';
+          html += '<option class="trn" ' + sel + ' name="' + self.action_data().attributes[k][j] + '" data-value="' + self.action_data().attributes[k][j] + '">' + self.action_data().attributes[k][j] + '</option>';
         }
         html += '</select>';
-      } else if (GUI.action_data().attributes[k][0] == '#') {
+      } else if (self.action_data().attributes[k][0] == '#') {
         //color
         html += '<table style="width:100%;">';	//table for 100% width
         html += '<tr>';
         html += '<td style="font-weight:bold;width:45px;">' + title + ':</td>';
-        html += '<td><input onchange="GUI.update_attribute(this);" type="color" id="' + k + '" value="' + GUI.action_data().attributes[k] + '" /></td>';
+        html += '<td><input onchange="GUI.update_attribute(this);" type="color" id="' + k + '" value="' + self.action_data().attributes[k] + '" /></td>';
         html += '</tr>';
         html += '</table>';
       } else {
@@ -477,7 +470,7 @@ function GUI_CLASS() {
         html += '<table style="width:100%;">';	//table for 100% width
         html += '<tr>';
         html += '<td style="font-weight:bold;padding-right:2px;white-space:nowrap;" class="trn">' + title + ':</td>';
-        html += '<td><input onKeyUp="GUI.update_attribute(this);" type="number" id="' + k + '" value="' + GUI.action_data().attributes[k] + '" /></td>';
+        html += '<td><input onKeyUp="GUI.update_attribute(this);" type="number" id="' + k + '" value="' + self.action_data().attributes[k] + '" /></td>';
         html += '</tr>';
         html += '</table>';
         html += '<div style="float:left;width:32px;" onclick="GUI.update_attribute(this, ' + (step) + ')" class="attribute-area" id="' + k + '">+</div>';
@@ -682,7 +675,7 @@ function GUI_CLASS() {
     square(x + w, y + h / 2, -1, 0);
 
     function square(x, y, mx, my) {
-      var sr_size = Math.ceil(EVENTS.sr_size / GUI.ZOOM * 100);
+      var sr_size = Math.ceil(EVENTS.sr_size / self.ZOOM * 100);
       x = Math.round(x);
       y = Math.round(y);
       canvas_front.beginPath();
@@ -695,4 +688,28 @@ function GUI_CLASS() {
   this.toggle = function (query) {
     document.querySelector(query).classList.toggle("active");
   };
+
+  var self = this
+  self.init = function () {
+    self.draw_background(canvas_back, WIDTH, HEIGHT);
+    document.getElementById("canvas_preview").width = self.PREVIEW_SIZE.w;
+    document.getElementById("canvas_preview").height = self.PREVIEW_SIZE.h;
+    var color_rgb = HELPER.hex2rgb(COLOR);
+    document.getElementById("rgb_r").value = color_rgb.r;
+    document.getElementById("rgb_g").value = color_rgb.g;
+    document.getElementById("rgb_b").value = color_rgb.b;
+    document.getElementById("rgb_a").value = ALPHA;
+    self.redraw_preview();
+
+    //detect color support
+    if (HELPER.chech_input_color_support('main_color') == true)
+      document.getElementById("main_color").value = COLOR; //supported
+    else {
+      //not supported
+      document.getElementById("main_color").style.display = 'none';
+      document.getElementById("main_color_alt").style.display = '';
+      document.getElementById("main_color_alt").style.backgroundColor = COLOR;
+    }
+    canvas_grid.globalAlpha = 0.8;
+  }
 }

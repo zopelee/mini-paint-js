@@ -1,0 +1,36 @@
+{
+  "name": "mini-paint-js",
+  "version": "1.0.0",
+  "description": "Online graphics editing tool lets create, edit images using HTML5 technologies. No need to buy, download, install or have obsolete flash. Key features: layers, drag & drop, transparency, filters, no-flash, open source.",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-bower": "0.0.13",
+    "gulp-concat": "^2.6.0",
+    "gulp-ng-annotate": "^2.0.0",
+    "gulp-notify": "^2.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
+    "gulp-rev": "^7.0.0",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-strip-comments": "^2.4.3",
+    "gulp-uglify": "^2.0.0",
+    "gulp-usemin": "^0.3.22",
+    "run-sequence": "^1.1.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zopelee/mini-paint-js.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zopelee/mini-paint-js/issues"
+  },
+  "homepage": "https://github.com/zopelee/mini-paint-js#readme"
+}
