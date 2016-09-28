@@ -9931,7 +9931,7 @@ function GUI_CLASS() {
     var html = '';
     for (var i in DRAW_TOOLS_CONFIG) {
       html += '<a title="' + DRAW_TOOLS_CONFIG[i].title + '"';
-      html += ' style="background: #989898 url(\'' + DRAW_TOOLS_CONFIG[i].icon[0] + '\') no-repeat ' + DRAW_TOOLS_CONFIG[i].icon[1] + 'px ' + DRAW_TOOLS_CONFIG[i].icon[2] + 'px;"';
+      html += ' style="background-position: ' + DRAW_TOOLS_CONFIG[i].icon[1] + 'px ' + DRAW_TOOLS_CONFIG[i].icon[2] + 'px;"';
       if (DRAW_TOOLS_CONFIG[i].name == DRAW.active_tool)
         html += ' class="active trn"';
       else
@@ -10664,25 +10664,25 @@ var ALPHA = 255;					//active color alpha
 var LANG = 'en';					//active language
 
 var DRAW_TOOLS_CONFIG = [
-  {name: 'select_tool', title: 'Select object tool', icon: ['../src/img/sprites.png', 0 + 7, 2], attributes: {}},
-  {name: 'select_square', title: 'Select area tool', icon: ['../src/img/sprites.png', -50 + 4, 5], attributes: {}},
-  {name: 'magic_wand', title: 'Magic Wand Tool', icon: ['../src/img/sprites.png', -150 + 1, -50 + 2], attributes: {power: 40, anti_aliasing: true}},
-  {name: 'erase', title: 'Erase', icon: ['../src/img/sprites.png', -100 + 3, 4], attributes: {size: 20, circle: true, strict: true}},
-  {name: 'fill', title: 'Fill', icon: ['../src/img/sprites.png', -150 + 3, 3], attributes: {power: 0, anti_aliasing: false}},
-  {name: 'pick_color', title: 'Pick Color', icon: ['../src/img/sprites.png', -200 + 3, 3], attributes: {}},
-  {name: 'pencil', title: 'Pencil', icon: ['../src/img/sprites.png', -250 + 3, 3], attributes: {}},
-  {name: 'line', title: 'Draw line', icon: ['../src/img/sprites.png', -300 + 3, 3], attributes: {size: 1, type_values: ['Simple', 'Multi-line', 'Arrow', 'Curve']}},
-  {name: 'letters', title: 'Draw letters', icon: ['../src/img/sprites.png', -350 + 3, 4], attributes: {}},
-  {name: 'draw_square', title: 'Draw rectangle', icon: ['../src/img/sprites.png', -400 + 3, 5], attributes: {fill: false, square: false}},
-  {name: 'draw_circle', title: 'Draw circle', icon: ['../src/img/sprites.png', -450 + 3, 5], attributes: {fill: false, circle: false}},
-  {name: 'brush', title: 'Brush', icon: ['../src/img/sprites.png', -500 + 6, 3], attributes: {type: 'Brush', type_values: ['Brush', 'BezierCurve', 'Chrome', 'Fur', 'Grouped', 'Shaded', 'Sketchy'], size: 5, anti_aliasing: false}, on_update: 'update_brush', },
-  {name: 'blur_tool', title: 'Blur tool', icon: ['../src/img/sprites.png', -250 + 5, -50 + 2], attributes: {size: 30, power: 1}},
-  {name: 'sharpen_tool', title: 'Sharpen tool', icon: ['../src/img/sprites.png', -300 + 5, -50 + 2], attributes: {size: 30}},
-  {name: 'burn_dodge_tool', title: 'Burn/Dodge tool', icon: ['../src/img/sprites.png', -500 + 3, -50 + 4], attributes: {burn: true, size: 30, power: 50}},
-  {name: 'desaturate_tool', title: 'Desaturate', icon: ['../src/img/sprites.png', -550 + 3, -00 + 4], attributes: {size: 50, anti_aliasing: true}},
-  {name: 'clone_tool', title: 'Clone tool', icon: ['../src/img/sprites.png', -350 + 4, -50 + 3], attributes: {size: 30, anti_aliasing: true}},
-  {name: 'gradient_tool', title: 'Gradient', icon: ['../src/img/sprites.png', -400 + 3, -50 + 4], attributes: {radial: false, power: 50}},
-  {name: 'crop_tool', title: 'Crop', icon: ['../src/img/sprites.png', -450 + 2, -50 + 2], attributes: {}},
+  {name: 'select_tool', title: 'Select object tool', icon: [null, 0 + 7, 2], attributes: {}},
+  {name: 'select_square', title: 'Select area tool', icon: [null, -50 + 4, 5], attributes: {}},
+  {name: 'magic_wand', title: 'Magic Wand Tool', icon: [null, -150 + 1, -50 + 2], attributes: {power: 40, anti_aliasing: true}},
+  {name: 'erase', title: 'Erase', icon: [null, -100 + 3, 4], attributes: {size: 20, circle: true, strict: true}},
+  {name: 'fill', title: 'Fill', icon: [null, -150 + 3, 3], attributes: {power: 0, anti_aliasing: false}},
+  {name: 'pick_color', title: 'Pick Color', icon: [null, -200 + 3, 3], attributes: {}},
+  {name: 'pencil', title: 'Pencil', icon: [null, -250 + 3, 3], attributes: {}},
+  {name: 'line', title: 'Draw line', icon: [null, -300 + 3, 3], attributes: {size: 1, type_values: ['Simple', 'Multi-line', 'Arrow', 'Curve']}},
+  {name: 'letters', title: 'Draw letters', icon: [null, -350 + 3, 4], attributes: {}},
+  {name: 'draw_square', title: 'Draw rectangle', icon: [null, -400 + 3, 5], attributes: {fill: false, square: false}},
+  {name: 'draw_circle', title: 'Draw circle', icon: [null, -450 + 3, 5], attributes: {fill: false, circle: false}},
+  {name: 'brush', title: 'Brush', icon: [null, -500 + 6, 3], attributes: {type: 'Brush', type_values: ['Brush', 'BezierCurve', 'Chrome', 'Fur', 'Grouped', 'Shaded', 'Sketchy'], size: 5, anti_aliasing: false}, on_update: 'update_brush', },
+  {name: 'blur_tool', title: 'Blur tool', icon: [null, -250 + 5, -50 + 2], attributes: {size: 30, power: 1}},
+  {name: 'sharpen_tool', title: 'Sharpen tool', icon: [null, -300 + 5, -50 + 2], attributes: {size: 30}},
+  {name: 'burn_dodge_tool', title: 'Burn/Dodge tool', icon: [null, -500 + 3, -50 + 4], attributes: {burn: true, size: 30, power: 50}},
+  {name: 'desaturate_tool', title: 'Desaturate', icon: [null, -550 + 3, -00 + 4], attributes: {size: 50, anti_aliasing: true}},
+  {name: 'clone_tool', title: 'Clone tool', icon: [null, -350 + 4, -50 + 3], attributes: {size: 30, anti_aliasing: true}},
+  {name: 'gradient_tool', title: 'Gradient', icon: [null, -400 + 3, -50 + 4], attributes: {radial: false, power: 50}},
+  {name: 'crop_tool', title: 'Crop', icon: [null, -450 + 2, -50 + 2], attributes: {}},
 ];
 
 // colors
@@ -10695,6 +10695,8 @@ var COLORS_DATA = [
 ]
 
 // menu
+// override
+ddsmoothmenu.arrowimages = {down: ['downarrowclass', '', 23], right: ['rightarrowclass', '', 6], left: ['leftarrowclass', '']}
 var MENU_ID = 'main_menu'
 /* global HELPER, EVENTS, LAYER, POP, FILE, GUI, DRAW */
 /* global WIDTH, HEIGHT, canvas_back, canvas_grid, COLOR, ALPHA  */
