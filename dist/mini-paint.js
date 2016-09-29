@@ -4893,11 +4893,6 @@ function EDIT_CLASS() {
   var PASTE_DATA = false;
 
   /**
-   * latest 3 saved states of all layers for undo
-   */
-  var layers_archive = [{}, {}, {}];
-
-  /**
    * on undo, current data index in layers_archive array
    */
   var undo_level = 0;
@@ -10703,6 +10698,12 @@ var canvas_front
 var canvas_grid
 var canvas_preview
 
+
+/**
+ * latest 3 saved states of all layers for undo
+ */
+var layers_archive = [{}, {}, {}];
+
 //global settings
 var VERSION = '3.1.1';
 var WIDTH;						//canvas midth
@@ -10801,5 +10802,6 @@ function MAIN_CLASS() {
     EVENTS.unbindAllEvents()
     LAYER.layers = []
     DRAW.active_tool = 'select_tool'
+    layers_archive = [{}, {}, {}]
   }
 }

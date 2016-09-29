@@ -16,11 +16,6 @@ function EDIT_CLASS() {
   var PASTE_DATA = false;
 
   /**
-   * latest 3 saved states of all layers for undo
-   */
-  var layers_archive = [{}, {}, {}];
-
-  /**
    * on undo, current data index in layers_archive array
    */
   var undo_level = 0;

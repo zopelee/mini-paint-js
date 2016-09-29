@@ -53,5 +53,6 @@ function MAIN_CLASS() {
     EVENTS.unbindAllEvents()
     LAYER.layers = []
     DRAW.active_tool = 'select_tool'
+    layers_archive = [{}, {}, {}]
   }
 }

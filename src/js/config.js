@@ -10,6 +10,12 @@ var canvas_front
 var canvas_grid
 var canvas_preview
 
+
+/**
+ * latest 3 saved states of all layers for undo
+ */
+var layers_archive = [{}, {}, {}];
+
 //global settings
 var VERSION = '3.1.1';
 var WIDTH;						//canvas midth
