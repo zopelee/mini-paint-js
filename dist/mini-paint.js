@@ -3633,49 +3633,6 @@ var BezierCurveBrush = {
 
 var EVENTS = new EVENTS_CLASS();
 
-//keyboard handlers
-document.onkeydown = function (e) {
-  return EVENTS.on_keyboard_action(e);
-};
-document.onkeyup = function (e) {
-  return EVENTS.on_keyboardup_action(e);
-};
-//mouse
-window.ondrop = function (e) {
-  EVENTS.upload_drop(e);
-};		//drop
-window.ondragover = function (e) {
-  e.preventDefault();
-};
-window.onresize = function (e) {
-  EVENTS.on_resize();
-};		//window resize
-document.onmousedown = EVENTS.mouse_click;	//mouse click
-document.onmousemove = EVENTS.mouse_move;	//mouse move
-document.onmouseup = EVENTS.mouse_release;	//mouse resease
-document.addEventListener("mousewheel", EVENTS.mouse_wheel_handler, false);	//mouse scroll
-document.addEventListener("DOMMouseScroll", EVENTS.mouse_wheel_handler, false);	//mouse scroll
-document.oncontextmenu = function (e) {
-  return EVENTS.mouse_right_click(e);
-};	//mouse right click
-document.getElementById('color_hex').onkeyup = function (e) {
-  GUI.set_color_manual(e);
-};	//on main color type
-document.getElementById('color_hex').onpaste = function (e) {
-  GUI.set_color_manual(e);
-}; // on paste in main color input
-
-//windows touch
-document.addEventListener('MSPointerDown', EVENTS.mouse_click, false);
-document.addEventListener('MSPointerMove', EVENTS.mouse_move, false);
-document.addEventListener('MSPointerUp', EVENTS.mouse_release, false);
-
-//touch and drag
-document.addEventListener("touchstart", EVENTS.mouse_click, false);
-document.addEventListener("touchend", EVENTS.mouse_release, false);
-document.addEventListener("touchmove", EVENTS.mouse_move, false);
-//document.addEventListener("touchcancel", handleCancel, false);
-
 /**
  * all events handling
  * 
@@ -4254,6 +4211,73 @@ function EVENTS_CLASS() {
     document.querySelector('#sidebar_left').classList.remove("active");
     document.querySelector('#sidebar_right').classList.remove("active");
   };
+
+  var self = this
+  self.bindAllEvents = function () {
+    //keyboard handlers
+    document.onkeydown = function (e) {
+      return EVENTS.on_keyboard_action(e);
+    };
+    document.onkeyup = function (e) {
+      return EVENTS.on_keyboardup_action(e);
+    };
+    //mouse
+    window.ondrop = function (e) {
+      EVENTS.upload_drop(e);
+    };		//drop
+    window.ondragover = function (e) {
+      e.preventDefault();
+    };
+    window.onresize = function (e) {
+      EVENTS.on_resize();
+    };		//window resize
+    document.onmousedown = EVENTS.mouse_click;	//mouse click
+    document.onmousemove = EVENTS.mouse_move;	//mouse move
+    document.onmouseup = EVENTS.mouse_release;	//mouse resease
+    document.addEventListener("mousewheel", EVENTS.mouse_wheel_handler, false);	//mouse scroll
+    document.addEventListener("DOMMouseScroll", EVENTS.mouse_wheel_handler, false);	//mouse scroll
+    document.oncontextmenu = function (e) {
+      return EVENTS.mouse_right_click(e);
+    };	//mouse right click
+    document.getElementById('color_hex').onkeyup = function (e) {
+      GUI.set_color_manual(e);
+    };	//on main color type
+    document.getElementById('color_hex').onpaste = function (e) {
+      GUI.set_color_manual(e);
+    }; // on paste in main color input
+
+    //windows touch
+    document.addEventListener('MSPointerDown', EVENTS.mouse_click, false);
+    document.addEventListener('MSPointerMove', EVENTS.mouse_move, false);
+    document.addEventListener('MSPointerUp', EVENTS.mouse_release, false);
+
+    //touch and drag
+    document.addEventListener("touchstart", EVENTS.mouse_click, false);
+    document.addEventListener("touchend", EVENTS.mouse_release, false);
+    document.addEventListener("touchmove", EVENTS.mouse_move, false);
+    //document.addEventListener("touchcancel", handleCancel, false);
+  }
+  self.unbindAllEvents = function () {
+    document.onkeydown = null
+    document.onkeyup = null
+    window.ondrop = null
+    window.ondragover = null
+    window.onresize = null
+    document.onmousedown = null
+    document.onmousemove = null
+    document.onmouseup = null
+    document.removeEventListener("mousewheel", EVENTS.mouse_wheel_handler, false)
+    document.removeEventListener("DOMMouseScroll", EVENTS.mouse_wheel_handler, false)
+    document.oncontextmenu = null
+    document.getElementById('color_hex').onkeyup = null
+    document.getElementById('color_hex').onpaste = null
+    document.removeEventListener('MSPointerDown', EVENTS.mouse_click, false)
+    document.removeEventListener('MSPointerMove', EVENTS.mouse_move, false)
+    document.removeEventListener('MSPointerUp', EVENTS.mouse_release, false)
+    document.removeEventListener("touchstart", EVENTS.mouse_click, false)
+    document.removeEventListener("touchend", EVENTS.mouse_release, false)
+    document.removeEventListener("touchmove", EVENTS.mouse_move, false)
+  }
 }
 
 function call_menu(class_name, function_name, parameter) {
@@ -4826,6 +4850,30 @@ function FILE_CLASS() {
     }
   };
 
+  this.open_from_url = function (url) {
+    var self = this
+
+    var FR = new FileReader();
+    var img = new Image()
+    img.setAttribute('crossOrigin', 'anonymous');
+    img.src = url
+    img.onload = function () {
+      var canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+      canvas.toBlob(function (blob) {
+        FR.file = blob
+        FR.readAsDataURL(blob)
+      })
+    }
+
+    FR.onload = function (event) {
+      LAYER.layer_add('Layer #1', this.result, this.file.type);
+      self.save_file_info(this.file);
+    }
+  }
 }
 /* global MAIN, POP, LAYER, DRAW, GUI */
 /* global WIDTH, HEIGHT, canvas_active, canvas_front */
@@ -10267,7 +10315,7 @@ function GUI_CLASS() {
     }
   };
 
-  this.action = function (key, callback) {
+  this.action = function (key) {
     DRAW[key]('init', {valid: true});
     if (DRAW.active_tool == key)
       return false;
@@ -10276,7 +10324,6 @@ function GUI_CLASS() {
     if (DRAW.active_tool != '')
       document.getElementById(DRAW.active_tool).classList.remove("active", "trn")
     DRAW.active_tool = key;
-    DRAW[key].callback = callback
     document.getElementById(key).classList.add("active", "trn")
     this.show_action_attributes();
 
@@ -10651,10 +10698,10 @@ function HELP_CLASS() {
  */
 
 //canvas layers
-var canvas_back = document.getElementById("canvas_back").getContext("2d");		//layer for grid/transparency
-var canvas_front = document.getElementById("canvas_front").getContext("2d");		//tmp layer
-var canvas_grid = document.getElementById("canvas_grid").getContext("2d");		//grid layer
-var canvas_preview = document.getElementById("canvas_preview").getContext("2d");	//mini preview
+var canvas_back
+var canvas_front
+var canvas_grid
+var canvas_preview
 
 //global settings
 var VERSION = '3.1.1';
@@ -10726,8 +10773,14 @@ function MAIN_CLASS() {
     };
     DRAW.select_data = false;
 
+    canvas_back = document.getElementById("canvas_back").getContext("2d");		//layer for grid/transparency
+    canvas_front = document.getElementById("canvas_front").getContext("2d");		//tmp layer
+    canvas_grid = document.getElementById("canvas_grid").getContext("2d");		//grid layer
+    canvas_preview = document.getElementById("canvas_preview").getContext("2d");	//mini preview
+
     LAYER.reset_layers()
     GUI.init()
+    EVENTS.bindAllEvents()
 
     //init translation
     var lang_cookie = HELPER.getCookie('language');
@@ -10744,4 +10797,9 @@ function MAIN_CLASS() {
       contentsource: "markup" //"markup" or ["container_id", "path_to_menu_file"]
     })
   };
+  this.destroy = function () {
+    EVENTS.unbindAllEvents()
+    LAYER.layers = []
+    DRAW.active_tool = 'select_tool'
+  }
 }

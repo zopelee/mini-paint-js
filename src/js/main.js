@@ -25,8 +25,14 @@ function MAIN_CLASS() {
     };
     DRAW.select_data = false;
 
+    canvas_back = document.getElementById("canvas_back").getContext("2d");		//layer for grid/transparency
+    canvas_front = document.getElementById("canvas_front").getContext("2d");		//tmp layer
+    canvas_grid = document.getElementById("canvas_grid").getContext("2d");		//grid layer
+    canvas_preview = document.getElementById("canvas_preview").getContext("2d");	//mini preview
+
     LAYER.reset_layers()
     GUI.init()
+    EVENTS.bindAllEvents()
 
     //init translation
     var lang_cookie = HELPER.getCookie('language');
@@ -43,4 +49,9 @@ function MAIN_CLASS() {
       contentsource: "markup" //"markup" or ["container_id", "path_to_menu_file"]
     })
   };
+  this.destroy = function () {
+    EVENTS.unbindAllEvents()
+    LAYER.layers = []
+    DRAW.active_tool = 'select_tool'
+  }
 }

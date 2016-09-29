@@ -405,7 +405,7 @@ function GUI_CLASS() {
     }
   };
 
-  this.action = function (key, callback) {
+  this.action = function (key) {
     DRAW[key]('init', {valid: true});
     if (DRAW.active_tool == key)
       return false;
@@ -414,7 +414,6 @@ function GUI_CLASS() {
     if (DRAW.active_tool != '')
       document.getElementById(DRAW.active_tool).classList.remove("active", "trn")
     DRAW.active_tool = key;
-    DRAW[key].callback = callback
     document.getElementById(key).classList.add("active", "trn")
     this.show_action_attributes();
 

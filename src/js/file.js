@@ -404,4 +404,28 @@ function FILE_CLASS() {
     }
   };
 
+  this.open_from_url = function (url) {
+    var self = this
+
+    var FR = new FileReader();
+    var img = new Image()
+    img.setAttribute('crossOrigin', 'anonymous');
+    img.src = url
+    img.onload = function () {
+      var canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+      canvas.toBlob(function (blob) {
+        FR.file = blob
+        FR.readAsDataURL(blob)
+      })
+    }
+
+    FR.onload = function (event) {
+      LAYER.layer_add('Layer #1', this.result, this.file.type);
+      self.save_file_info(this.file);
+    }
+  }
 }

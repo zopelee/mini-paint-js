@@ -3,49 +3,6 @@
 
 var EVENTS = new EVENTS_CLASS();
 
-//keyboard handlers
-document.onkeydown = function (e) {
-  return EVENTS.on_keyboard_action(e);
-};
-document.onkeyup = function (e) {
-  return EVENTS.on_keyboardup_action(e);
-};
-//mouse
-window.ondrop = function (e) {
-  EVENTS.upload_drop(e);
-};		//drop
-window.ondragover = function (e) {
-  e.preventDefault();
-};
-window.onresize = function (e) {
-  EVENTS.on_resize();
-};		//window resize
-document.onmousedown = EVENTS.mouse_click;	//mouse click
-document.onmousemove = EVENTS.mouse_move;	//mouse move
-document.onmouseup = EVENTS.mouse_release;	//mouse resease
-document.addEventListener("mousewheel", EVENTS.mouse_wheel_handler, false);	//mouse scroll
-document.addEventListener("DOMMouseScroll", EVENTS.mouse_wheel_handler, false);	//mouse scroll
-document.oncontextmenu = function (e) {
-  return EVENTS.mouse_right_click(e);
-};	//mouse right click
-document.getElementById('color_hex').onkeyup = function (e) {
-  GUI.set_color_manual(e);
-};	//on main color type
-document.getElementById('color_hex').onpaste = function (e) {
-  GUI.set_color_manual(e);
-}; // on paste in main color input
-
-//windows touch
-document.addEventListener('MSPointerDown', EVENTS.mouse_click, false);
-document.addEventListener('MSPointerMove', EVENTS.mouse_move, false);
-document.addEventListener('MSPointerUp', EVENTS.mouse_release, false);
-
-//touch and drag
-document.addEventListener("touchstart", EVENTS.mouse_click, false);
-document.addEventListener("touchend", EVENTS.mouse_release, false);
-document.addEventListener("touchmove", EVENTS.mouse_move, false);
-//document.addEventListener("touchcancel", handleCancel, false);
-
 /**
  * all events handling
  * 
@@ -624,6 +581,73 @@ function EVENTS_CLASS() {
     document.querySelector('#sidebar_left').classList.remove("active");
     document.querySelector('#sidebar_right').classList.remove("active");
   };
+
+  var self = this
+  self.bindAllEvents = function () {
+    //keyboard handlers
+    document.onkeydown = function (e) {
+      return EVENTS.on_keyboard_action(e);
+    };
+    document.onkeyup = function (e) {
+      return EVENTS.on_keyboardup_action(e);
+    };
+    //mouse
+    window.ondrop = function (e) {
+      EVENTS.upload_drop(e);
+    };		//drop
+    window.ondragover = function (e) {
+      e.preventDefault();
+    };
+    window.onresize = function (e) {
+      EVENTS.on_resize();
+    };		//window resize
+    document.onmousedown = EVENTS.mouse_click;	//mouse click
+    document.onmousemove = EVENTS.mouse_move;	//mouse move
+    document.onmouseup = EVENTS.mouse_release;	//mouse resease
+    document.addEventListener("mousewheel", EVENTS.mouse_wheel_handler, false);	//mouse scroll
+    document.addEventListener("DOMMouseScroll", EVENTS.mouse_wheel_handler, false);	//mouse scroll
+    document.oncontextmenu = function (e) {
+      return EVENTS.mouse_right_click(e);
+    };	//mouse right click
+    document.getElementById('color_hex').onkeyup = function (e) {
+      GUI.set_color_manual(e);
+    };	//on main color type
+    document.getElementById('color_hex').onpaste = function (e) {
+      GUI.set_color_manual(e);
+    }; // on paste in main color input
+
+    //windows touch
+    document.addEventListener('MSPointerDown', EVENTS.mouse_click, false);
+    document.addEventListener('MSPointerMove', EVENTS.mouse_move, false);
+    document.addEventListener('MSPointerUp', EVENTS.mouse_release, false);
+
+    //touch and drag
+    document.addEventListener("touchstart", EVENTS.mouse_click, false);
+    document.addEventListener("touchend", EVENTS.mouse_release, false);
+    document.addEventListener("touchmove", EVENTS.mouse_move, false);
+    //document.addEventListener("touchcancel", handleCancel, false);
+  }
+  self.unbindAllEvents = function () {
+    document.onkeydown = null
+    document.onkeyup = null
+    window.ondrop = null
+    window.ondragover = null
+    window.onresize = null
+    document.onmousedown = null
+    document.onmousemove = null
+    document.onmouseup = null
+    document.removeEventListener("mousewheel", EVENTS.mouse_wheel_handler, false)
+    document.removeEventListener("DOMMouseScroll", EVENTS.mouse_wheel_handler, false)
+    document.oncontextmenu = null
+    document.getElementById('color_hex').onkeyup = null
+    document.getElementById('color_hex').onpaste = null
+    document.removeEventListener('MSPointerDown', EVENTS.mouse_click, false)
+    document.removeEventListener('MSPointerMove', EVENTS.mouse_move, false)
+    document.removeEventListener('MSPointerUp', EVENTS.mouse_release, false)
+    document.removeEventListener("touchstart", EVENTS.mouse_click, false)
+    document.removeEventListener("touchend", EVENTS.mouse_release, false)
+    document.removeEventListener("touchmove", EVENTS.mouse_move, false)
+  }
 }
 
 function call_menu(class_name, function_name, parameter) {

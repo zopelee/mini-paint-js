@@ -5,10 +5,10 @@
  */
 
 //canvas layers
-var canvas_back = document.getElementById("canvas_back").getContext("2d");		//layer for grid/transparency
-var canvas_front = document.getElementById("canvas_front").getContext("2d");		//tmp layer
-var canvas_grid = document.getElementById("canvas_grid").getContext("2d");		//grid layer
-var canvas_preview = document.getElementById("canvas_preview").getContext("2d");	//mini preview
+var canvas_back
+var canvas_front
+var canvas_grid
+var canvas_preview
 
 //global settings
 var VERSION = '3.1.1';
