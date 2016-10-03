@@ -687,22 +687,12 @@ function CLIPBOARD_CLASS(canvas_id, autoresize) {
   var pasteCatcher;
   var paste_mode;
 
-  //handlers
-  document.addEventListener('keydown', function (e) {
-    _self.on_keyboard_action(e);
-  }, false); //firefox fix
-  document.addEventListener('keyup', function (e) {
-    _self.on_keyboardup_action(e);
-  }, false); //firefox fix
-  document.addEventListener('paste', function (e) {
-    _self.paste_auto(e);
-  }, false); //official paste handler
-
   //constructor - prepare
   this.init = function () {
-    //if using auto
-    if (window.Clipboard)
-      return true;
+    //handlers
+    document.addEventListener('keydown', _self.on_keyboard_action, false); //firefox fix
+    document.addEventListener('keyup', _self.on_keyboardup_action, false); //firefox fix
+    document.addEventListener('paste', _self.paste_auto, false); //official paste handler
 
     pasteCatcher = document.createElement("div");
     pasteCatcher.setAttribute("id", "paste_ff");
@@ -734,7 +724,12 @@ function CLIPBOARD_CLASS(canvas_id, autoresize) {
     var target = document.getElementById('paste_ff');
     var config = {attributes: true, childList: true, characterData: true};
     observer.observe(target, config);
-  }();
+  }
+  this.destroy = function () {
+    document.removeEventListener('keydown', _self.on_keyboard_action)
+    document.removeEventListener('keyup', _self.on_keyboardup_action)
+    document.removeEventListener('paste', _self.paste_auto)
+  }
   //default paste action
   this.paste_auto = function (e) {
     paste_mode = '';

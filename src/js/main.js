@@ -33,6 +33,7 @@ function MAIN_CLASS() {
     LAYER.reset_layers()
     GUI.init()
     EVENTS.bindAllEvents()
+    CLIPBOARD.init()
 
     //init translation
     var lang_cookie = HELPER.getCookie('language');
@@ -51,6 +52,7 @@ function MAIN_CLASS() {
   };
   this.destroy = function () {
     EVENTS.unbindAllEvents()
+    CLIPBOARD.destroy()
     LAYER.layers = []
     DRAW.active_tool = 'select_tool'
     layers_archive = [{}, {}, {}]
